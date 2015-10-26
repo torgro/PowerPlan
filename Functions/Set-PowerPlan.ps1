@@ -2,25 +2,23 @@
 {
 <#
 .Synopsis
-   Short description
+   Sets a Powerplan by name or by value provided from the pipeline
 .DESCRIPTION
-   Long description
+   This cmdlet invokes the CIM-method Activate in class Win32_PowerPlan. See also Get-PowerPlan cmdlet
 .EXAMPLE
-   Example of how to use this cmdlet
+   Set-PowerPlan -PlanName high*
+
+   This will set the current powerplan to "High 
 .EXAMPLE
-   Another example of how to use this cmdlet
-.INPUTS
-   Inputs to this cmdlet (if any)
-.OUTPUTS
-   Output from this cmdlet (if any)
+   Get-Powerplan -PlanName "Power Saver" | Set-PowerPlan
 .NOTES
-   General notes
+   Powerplan and performance
 .COMPONENT
-   The component this cmdlet belongs to
+   Powerplan
 .ROLE
-   The role this cmdlet belongs to
+   Powerplan
 .FUNCTIONALITY
-   The functionality that best describes this cmdlet
+   This cmdlet invokes CIM-methods in the class Win32_PowerPlan
 #>
 [cmdletbinding(
     SupportsShouldProcess=$true,

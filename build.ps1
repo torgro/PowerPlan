@@ -8,6 +8,8 @@ Param(
     [switch]$Minor
     ,
     [switch]$LoadModule
+    ,
+    [string]$description = "List and set powerplan for you computer using CIM"
 )
 cd C:\Users\Tore\OneDrive\GIT\PowerPlan -ErrorAction SilentlyContinue
 $F = $MyInvocation.InvocationName
@@ -221,7 +223,7 @@ if($alias)
 }
 
 Write-Verbose -Message "$f -  Creating manifestfile"
-New-ModuleManifest -Path "$PSScriptRoot\$ManifestName" -Author "Tore Grøneng @toregroneng tore@firstpoint.no" -CompanyName "Firstpoint AS" -ModuleVersion $ver.ToString() -FunctionsToExport $ExportedFunctions -RootModule $ModuleFileName
+New-ModuleManifest -Path "$PSScriptRoot\$ManifestName" -Author "Tore Grøneng @toregroneng tore@firstpoint.no" -CompanyName "Firstpoint AS" -ModuleVersion $ver.ToString() -FunctionsToExport $ExportedFunctions -RootModule $ModuleFileName -Description "$description" -PowerShellVersion "4.0"
 
 Write-Verbose -Message "$f -  Reading back content to contert to UTF8 (content management tracking)"
 Set-Content -Path "$PSScriptRoot\$ManifestName" -Value (Get-Content -Path $ManifestName -Raw) -Encoding UTF8

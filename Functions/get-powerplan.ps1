@@ -41,6 +41,12 @@ ElementName    : High performance
 InstanceID     : Microsoft:PowerPlan\{8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c}
 IsActive       : True
 PSComputerName : 
+
+.EXAMPLE 
+    Get-PowerPlan -PlanName high* -ComputerName "Server1","Server2"
+
+    Will output the powerplan with name like high for server1 and server2
+
 .OUTPUTS
    CimInstance
 .NOTES
@@ -62,23 +68,40 @@ Param(
     )]
     [Alias("ElementName")]
     [string]$PlanName = "*"
+    ,
+    [Parameter(
+        ValueFromPipeline=$true,
+        ValueFromPipelineByPropertyName=$true, 
+        ValueFromRemainingArguments=$false
+    )]
+    [string[]]$ComputerName
 )
 
     Begin
     {
         $f = $MyInvocation.InvocationName
         Write-Verbose -Message "$f - START"
+
+        $GetCimInstance = @{
+            Namespace = "root\cimv2\power"
+            ClassName = "Win32_PowerPlan"
+        }
+
+        if($ComputerName)
+        {
+            $GetCimInstance.Add("ComputerName",$ComputerName)
+        }
     }
 
     Process
     {
         if($PlanName)
         {
-            Get-CimInstance -Name root\cimv2\power -Class Win32_PowerPlan | Where-Object ElementName -Like "$PlanName"
+            Get-CimInstance @GetCimInstance | Where-Object ElementName -Like "$PlanName"
         }
         else
         {
-            Get-CimInstance -Name root\cimv2\power -Class Win32_PowerPlan
+            Get-CimInstance @GetCimInstance
         }
     }
 

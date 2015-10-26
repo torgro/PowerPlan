@@ -12,10 +12,10 @@
 RootModule = 'PowerPlan.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.2.0'
+ModuleVersion = '1.0.3.0'
 
 # ID used to uniquely identify this module
-GUID = '60ed16d4-0d1b-47ea-9f75-bf890fafcf16'
+GUID = 'bfa65681-8748-4aff-a25b-1103f23704d5'
 
 # Author of this module
 Author = 'Tore Grøneng @toregroneng tore@firstpoint.no'
@@ -98,7 +98,7 @@ PrivateData = @{
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        ProjectUri = 'https://github.com/torgro/PowerPlan'
+        # ProjectUri = ''
 
         # A URL to an icon representing this module.
         # IconUri = ''

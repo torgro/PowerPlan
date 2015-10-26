@@ -8,9 +8,19 @@
 .EXAMPLE
    Set-PowerPlan -PlanName high*
 
-   This will set the current powerplan to "High 
+   This will set the current powerplan to High for the current computer
 .EXAMPLE
    Get-Powerplan -PlanName "Power Saver" | Set-PowerPlan
+
+   Will set the powerplan to "Power Saver" for current computer
+.EXAMPLE
+   Get-Powerplan -PlanName "Power Saver" -ComputerName "Server1","Server2" | Set-PowerPlan
+
+   This will set the current powerpla to "Power Saver" for the computers Server1 and Server2
+.EXAMPLE
+   Set-PowerPlan -PlanName "Power Saver" -ComputerName "Server1","Server2"
+
+   This will set the current powerpla to "Power Saver" for the computers Server1 and Server2
 .NOTES
    Powerplan and performance
 .COMPONENT
@@ -32,25 +42,53 @@ Param(
     )]
     [Alias("ElementName")]
     [string]$PlanName = "*"
+    ,    
+    [Parameter(
+        ValueFromPipeline=$true,
+        ValueFromPipelineByPropertyName=$true, 
+        ValueFromRemainingArguments=$false
+    )]
+    [Alias("PSComputerName")]
+    [string[]]$ComputerName
 )
 
     Begin
     {
         $f = $MyInvocation.InvocationName
-        Write-Verbose -Message "$f - START"    
+        Write-Verbose -Message "$f - START"
+        $GetCimInstance = @{
+            Namespace = "root\cimv2\power"
+            ClassName = "Win32_PowerPlan"
+        }
+
+        if($ComputerName)
+        {
+            $GetCimInstance.Add("ComputerName",$ComputerName)
+        }
+
+        $InvokeCimMethod = @{
+            MethodName = "Activate"
+        }
+
+        if($WhatIfPreference)
+        {
+            $InvokeCimMethod.Add("WhatIf",$true)
+        }
     }
 
     Process
     {   
-        Write-Verbose -Message "$f -  ElementName=$PlanName" 
-        if ($pscmdlet.ShouldProcess("$PlanName", "Set as active powerplan"))
+        Write-Verbose -Message "$f -  ElementName=$PlanName"
+        $CimObjectPowerPlan = Get-CimInstance @GetCimInstance | Where-Object ElementName -like "$PlanName"
+
+        foreach($Instance in $CimObjectPowerPlan)
         {
-            $CimObjectPowerPlan = Get-CimInstance -Namespace "root\cimv2\power" -ClassName "win32_PowerPlan" | Where-Object ElementName -eq "$PlanName"
-            if($CimObjectPowerPlan)
-            {            
-                $null = Invoke-CimMethod -InputObject $CimObjectPowerPlan -MethodName Activate -Verbose
-            }
-        }    
+            $null = Invoke-CimMethod -InputObject $Instance @InvokeCimMethod
+        }
+        if(-not $CimObjectPowerPlan)
+        {
+            Write-Warning -Message "Unable to find powerplan $PlanName"
+        }   
     }
 
     End

@@ -3,10 +3,11 @@
 Describe 'Get information from localhost about power plans' -tag 'taskRunnertest' {
     try {
         BeforeAll {
-            $currentPlan = $plans | Where-Object {$_.IsActive -eq $true}
+            $restorePlan = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' -Filter 'IsActive=True'
         }
         $builtIn = @('Balanced', 'High performance', 'Power saver')
         $plans = Get-Powerplan
+        
         Context 'List power plans' {
             ForEach ($plan in $builtIn)
             {
@@ -27,26 +28,28 @@ Describe 'Get information from localhost about power plans' -tag 'taskRunnertest
                 $properties.Name | Should Be @('Caption', 'Description', 'ElementName', 'InstanceID', 'IsActive', 'PSComputerName')
             }
         }
+        
         Context 'Set a Powerplan active' {
             ForEach ($plan in $builtIn)
             {
                 It "sets $plan as active" {
                     Set-PowerPlan $plan
-                    $active = Get-PowerPlan | Where-Object {$_.IsActive -eq $true}
+                    $active = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' -Filter 'IsActive=True'
                     $active.ElementName | Should Be $plan
                 }
             }
             It 'uses the -ComputerName parameter correctly against localhost' {
                 $ComputerName = 'localhost'
                 Set-Powerplan -ComputerName $ComputerName -PlanName 'Balanced'
-                $active = Get-PowerPlan | Where-Object {$_.IsActive -eq $true}
+                $active = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' -Filter 'IsActive=True'
                 $active.ElementName | Should Be 'Balanced'
             }
         }
         }
     finally {
         AfterAll {
-            Set-PowerPlan $currentPlan.ElementName
+            $inputObject = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' | Where-Object {$_.ElementName -eq $restorePlan.ElementName}
+            Invoke-CimMethod -InputObject $inputObject -MethodName Activate
         }
     }
 }

@@ -49,7 +49,7 @@ Describe 'Get information from localhost about power plans' -tag 'taskRunnertest
     finally {
         AfterAll {
             $inputObject = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' | Where-Object {$_.ElementName -eq $restorePlan.ElementName}
-            Invoke-CimMethod -InputObject $inputObject -MethodName Activate
+            $null = Invoke-CimMethod -InputObject $inputObject -MethodName Activate
         }
     }
 }

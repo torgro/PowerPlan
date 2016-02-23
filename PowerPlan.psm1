@@ -196,7 +196,7 @@ Param(
               
         foreach($Instance in $CimObjectPowerPlan)
         {
-            if ($cmdlet.ShouldProcess($ComputerName))
+            if ($pscmdlet.ShouldProcess($Instance))
             {   
                 $null = Invoke-CimMethod -InputObject $Instance @InvokeCimMethod
             }

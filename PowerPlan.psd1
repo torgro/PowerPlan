@@ -13,7 +13,7 @@
 RootModule = 'PowerPlan.psm1'
 
 # Version number of this module.
-ModuleVersion = '2.0.3.0'
+ModuleVersion = '2.0.0.0'
 
 # ID used to uniquely identify this module
 GUID = 'bfa65681-8748-4aff-a25b-1103f23704d5'
@@ -67,7 +67,7 @@ PowerShellVersion = '4.0'
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = 'Get-PowerPlan', 'Set-PowerPlan'
+FunctionsToExport = '*'
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'

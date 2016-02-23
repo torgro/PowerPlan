@@ -12,5 +12,10 @@ Describe 'Get information from localhost about power plans' -tag 'taskRunnertest
                 Get-Powerplan -PlanName $plan | ForEach-Object 'ElementName' | Should Be $plan
             }
         }
+        It 'uses the -ComputerName parameter' {
+            $ComputerName = 'localhost'
+            $results = Get-Powerplan -ComputerName $ComputerName
+            $results.count -gt 0 | Should Be True 
+        }
     }
 }

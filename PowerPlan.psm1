@@ -174,7 +174,7 @@ Param(
             ClassName = "Win32_PowerPlan"
         }
 
-        if($ComputerName)
+        if($pscmdlet.ShouldProcess($ComputerName))
         {
             $GetCimInstance.Add("ComputerName",$ComputerName)
         }

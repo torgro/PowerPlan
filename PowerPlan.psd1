@@ -5,6 +5,7 @@
 #
 # Generated on: 26.10.2015
 #
+# Modified on 2/23/2016 by Michael Greene (GitHub mgreenegit)
 
 @{
 
@@ -12,7 +13,7 @@
 RootModule = 'PowerPlan.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.3.0'
+ModuleVersion = '2.0.3.0'
 
 # ID used to uniquely identify this module
 GUID = 'bfa65681-8748-4aff-a25b-1103f23704d5'
@@ -92,13 +93,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        # Tags = @(Power Plan, Energy, Battery)
 
         # A URL to the license for this module.
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        # ProjectUri = 'http://github.com/toregroneng/powerplan'
 
         # A URL to an icon representing this module.
         # IconUri = ''

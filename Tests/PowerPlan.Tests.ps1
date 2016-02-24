@@ -2,9 +2,12 @@
 
 Describe 'Get information from localhost about power plans' -tag 'taskRunnertest' {
     try {
-        BeforeAll {
+        
+        BeforeAll
+        {
             $restorePlan = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' -Filter 'IsActive=True'
         }
+        
         $builtIn = @('Balanced', 'High performance', 'Power saver')
         $plans = Get-Powerplan
         
@@ -29,7 +32,7 @@ Describe 'Get information from localhost about power plans' -tag 'taskRunnertest
             }
             It 'returns the expected plan using the -Active parameter' {
                 $active = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' -Filter 'IsActive=True'
-                Get-Powerplan -Active | Should Be $active
+                (Get-Powerplan -Active).InstanceID | Should Be $active.InstanceID
             }
         }
         
@@ -49,9 +52,10 @@ Describe 'Get information from localhost about power plans' -tag 'taskRunnertest
                 $active.ElementName | Should Be 'Balanced'
             }
         }
-        }
+    }
     finally {
-        AfterAll {
+        AfterAll
+        {
             $inputObject = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' | Where-Object {$_.ElementName -eq $restorePlan.ElementName}
             $null = Invoke-CimMethod -InputObject $inputObject -MethodName Activate
         }

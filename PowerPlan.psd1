@@ -70,13 +70,13 @@ PowerShellVersion = '4.0'
 FunctionsToExport = '*'
 
 # Cmdlets to export from this module
-CmdletsToExport = '*'
+# CmdletsToExport = '*'
 
 # Variables to export from this module
-VariablesToExport = '*'
+# VariablesToExport = '*'
 
 # Aliases to export from this module
-AliasesToExport = '*'
+# AliasesToExport = '*'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
@@ -99,7 +99,7 @@ PrivateData = @{
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        # ProjectUri = 'http://github.com/toregroneng/powerplan'
+        ProjectUri = 'https://github.com/torgro/PowerPlan'
 
         # A URL to an icon representing this module.
         # IconUri = ''

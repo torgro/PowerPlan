@@ -1,6 +1,11 @@
 # PowerPlan Module
 
-This module allows you to get and set Power settings from PowerShell.
+Allows you to retrieve the list of available power plans and select the active
+plans from PowerShell.
+
+This module includes both PowerShell functions and a Desired State Configuration
+resource.  Pester unit tests are provided in the .\Tests folder and an example
+configuration script is provided in the .\Examples folder.
 
 **Examples**
 
@@ -21,6 +26,17 @@ This module allows you to get and set Power settings from PowerShell.
     
     # Set active plan on remote computer
     Set-Powerplan -Planname Balanced -Computername RemoteMachine
+    
+    # Create a new configuration that contains the PowerPlan resource
+    Configuration PowerSettings
+    {
+        Import-DscResource -ModuleName PowerPlan
+
+        PowerPlan HighPerformance
+        {
+            Name = 'High performance'
+        }            
+    }
 
 **Release Notes**
 

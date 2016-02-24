@@ -21,3 +21,11 @@ This module allows you to get and set Power settings from PowerShell.
     
     # Set active plan on remote computer
     Set-Powerplan -Planname Balanced -Computername RemoteMachine
+
+**Release Notes**
+
+v2.0.0.0
+* Modifications to add Pester tests and DSC resources
+
+v1.0.3.0
+* Original module release by Tore Grøneng

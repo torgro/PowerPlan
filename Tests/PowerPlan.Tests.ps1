@@ -27,6 +27,10 @@ Describe 'Get information from localhost about power plans' -tag 'taskRunnertest
                 $properties = Get-Powerplan | Get-Member -MemberType Property
                 $properties.Name | Should Be @('Caption', 'Description', 'ElementName', 'InstanceID', 'IsActive', 'PSComputerName')
             }
+            It 'returns the expected plan using the -Active parameter' {
+                $active = Get-CimInstance -Namespace 'root\cimv2\power' -ClassName 'Win32_PowerPlan' -Filter 'IsActive=True'
+                Get-Powerplan -Active | Should Be $active
+            }
         }
         
         Context 'Set a Powerplan active' {

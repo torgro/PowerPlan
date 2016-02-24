@@ -46,6 +46,11 @@ PSComputerName :
     Get-PowerPlan -PlanName high* -ComputerName "Server1","Server2"
 
     Will output the powerplan with name like high for server1 and server2
+    
+.EXAMPLE 
+    Get-PowerPlan -Active
+
+    Will output the active powerplan    
 
 .OUTPUTS
    CimInstance
@@ -74,7 +79,8 @@ Param(
         ValueFromPipelineByPropertyName=$true, 
         ValueFromRemainingArguments=$false
     )]
-    [string[]]$ComputerName
+    [string[]]$ComputerName,
+    [switch]$Active
 )
 
     Begin
@@ -90,6 +96,11 @@ Param(
         if($ComputerName)
         {
             $GetCimInstance.Add("ComputerName",$ComputerName)
+        }
+        
+        if($Active)
+        {
+            $GetCimInstance.Add("Filter",'IsActive="True"')
         }
     }
 
@@ -178,7 +189,7 @@ Param(
         {
             $GetCimInstance.Add("ComputerName",$ComputerName)
         }
-
+        
         $InvokeCimMethod = @{
             MethodName = "Activate"
         }

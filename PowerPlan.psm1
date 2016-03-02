@@ -252,7 +252,7 @@ class PowerPlan
     #>
     [bool] Test()
     {
-        if ((Get-PowerPlan -Active).ElementName = $this.Name)
+        if ((Get-PowerPlan -Active).ElementName -eq $this.Name)
         {
             return $true
         }

@@ -265,7 +265,7 @@ class PowerPlan
     <#
         Returns an instance of this class to identify the active plan.
     #>
-    [powerPlan] Get()
+    [PowerPlan] Get()
     {
         $this.Name = (Get-PowerPlan -Active).ElementName
         return $this

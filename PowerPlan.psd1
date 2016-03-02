@@ -31,7 +31,7 @@ Copyright = '(c) 2015 Tore Grøneng @toregroneng tore@firstpoint.no. All rights 
 Description = 'List and set powerplan for you computer using CIM'
 
 # Minimum version of the Windows PowerShell engine required by this module
-PowerShellVersion = '4.0'
+PowerShellVersion = '5.0'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
@@ -67,7 +67,7 @@ PowerShellVersion = '4.0'
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = '*'
+FunctionsToExport = @('Get-PowerPlan','Set-PowerPlan')
 
 # Cmdlets to export from this module
 # CmdletsToExport = '*'
@@ -79,7 +79,7 @@ FunctionsToExport = '*'
 # AliasesToExport = '*'
 
 # DSC resources to export from this module
-# DscResourcesToExport = @()
+DscResourcesToExport = @('PowerPlan')
 
 # List of all modules packaged with this module
 # ModuleList = @()

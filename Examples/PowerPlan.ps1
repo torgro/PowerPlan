@@ -8,4 +8,4 @@
     }
 }
 
-PowerSettings -outfile c:\DSC\
+PowerSettings -outputpath C:\DSC\PowerPlan

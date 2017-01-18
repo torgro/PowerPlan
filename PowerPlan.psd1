@@ -5,6 +5,7 @@
 #
 # Generated on: 26.10.2015
 #
+# Modified on 2/23/2016 by Michael Greene (GitHub mgreenegit)
 
 @{
 
@@ -12,7 +13,7 @@
 RootModule = 'PowerPlan.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.3.0'
+ModuleVersion = '2.0.0.0'
 
 # ID used to uniquely identify this module
 GUID = 'bfa65681-8748-4aff-a25b-1103f23704d5'
@@ -30,7 +31,7 @@ Copyright = '(c) 2015 Tore Grøneng @toregroneng tore@firstpoint.no. All rights 
 Description = 'List and set powerplan for you computer using CIM'
 
 # Minimum version of the Windows PowerShell engine required by this module
-PowerShellVersion = '4.0'
+PowerShellVersion = '5.0'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
@@ -66,19 +67,19 @@ PowerShellVersion = '4.0'
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = 'Get-PowerPlan', 'Set-PowerPlan'
+FunctionsToExport = @('Get-PowerPlan','Set-PowerPlan')
 
 # Cmdlets to export from this module
-CmdletsToExport = '*'
+# CmdletsToExport = '*'
 
 # Variables to export from this module
-VariablesToExport = '*'
+# VariablesToExport = '*'
 
 # Aliases to export from this module
-AliasesToExport = '*'
+# AliasesToExport = '*'
 
 # DSC resources to export from this module
-# DscResourcesToExport = @()
+DscResourcesToExport = @('PowerPlan')
 
 # List of all modules packaged with this module
 # ModuleList = @()
@@ -92,13 +93,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        # Tags = @(Power Plan, Energy, Battery)
 
         # A URL to the license for this module.
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/torgro/PowerPlan'
 
         # A URL to an icon representing this module.
         # IconUri = ''

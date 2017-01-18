@@ -46,6 +46,11 @@ PSComputerName :
     Get-PowerPlan -PlanName high* -ComputerName "Server1","Server2"
 
     Will output the powerplan with name like high for server1 and server2
+    
+.EXAMPLE 
+    Get-PowerPlan -Active
+
+    Will output the active powerplan    
 
 .OUTPUTS
    CimInstance
@@ -74,7 +79,8 @@ Param(
         ValueFromPipelineByPropertyName=$true, 
         ValueFromRemainingArguments=$false
     )]
-    [string[]]$ComputerName
+    [string[]]$ComputerName,
+    [switch]$Active
 )
 
     Begin
@@ -90,6 +96,11 @@ Param(
         if($ComputerName)
         {
             $GetCimInstance.Add("ComputerName",$ComputerName)
+        }
+        
+        if($Active)
+        {
+            $GetCimInstance.Add("Filter",'IsActive="True"')
         }
     }
 
@@ -178,7 +189,7 @@ Param(
         {
             $GetCimInstance.Add("ComputerName",$ComputerName)
         }
-
+        
         $InvokeCimMethod = @{
             MethodName = "Activate"
         }
@@ -193,15 +204,18 @@ Param(
     {   
         Write-Verbose -Message "$f -  ElementName=$PlanName"
         $CimObjectPowerPlan = Get-CimInstance @GetCimInstance | Where-Object ElementName -like "$PlanName"
-
+              
         foreach($Instance in $CimObjectPowerPlan)
         {
-            $null = Invoke-CimMethod -InputObject $Instance @InvokeCimMethod
+            if ($pscmdlet.ShouldProcess($Instance))
+            {   
+                $null = Invoke-CimMethod -InputObject $Instance @InvokeCimMethod
+            }
         }
         if(-not $CimObjectPowerPlan)
         {
             Write-Warning -Message "Unable to find powerplan $PlanName"
-        }   
+        }
     }
 
     End
@@ -211,5 +225,49 @@ Param(
 
 }
 
+<#
+    DSC Resource
+    Manages the power plan selection for a computer. 
+#>
+[DscResource()]
+class PowerPlan
+{
+    
+    <#
+       This property is the name of an available power plan.
+    #>
+    [DscProperty(Key)]
+    [string]$Name
 
+    <#
+        Sets the specified power plan as active.
+    #>
+    [void] Set()
+    {
+        Set-PowerPlan $this.Name
+    }
 
+    <#
+        Tests if the machine is using the specified power plan.
+    #>
+    [bool] Test()
+    {
+        if ((Get-PowerPlan -Active).ElementName -eq $this.Name)
+        {
+            return $true
+        }
+        else
+        {
+            return $false
+        }
+    }
+
+    <#
+        Returns an instance of this class to identify the active plan.
+    #>
+    [PowerPlan] Get()
+    {
+        $this.Name = (Get-PowerPlan -Active).ElementName
+        return $this
+    }
+}

@@ -93,12 +93,12 @@ Param(
             ClassName = "Win32_PowerPlan"
         }
 
-        if($ComputerName)
+        if ($ComputerName)
         {
             $GetCimInstance.Add("ComputerName",$ComputerName)
         }
         
-        if($Active)
+        if ($Active)
         {
             $GetCimInstance.Add("Filter",'IsActive="True"')
         }
@@ -106,7 +106,7 @@ Param(
 
     Process
     {
-        if($PlanName)
+        if ($PlanName)
         {
             Get-CimInstance @GetCimInstance | Where-Object ElementName -Like "$PlanName"
         }
@@ -185,7 +185,7 @@ Param(
             ClassName = "Win32_PowerPlan"
         }
 
-        if($ComputerName)
+        if ($ComputerName)
         {
             $GetCimInstance.Add("ComputerName",$ComputerName)
         }
@@ -194,7 +194,7 @@ Param(
             MethodName = "Activate"
         }
 
-        if($WhatIfPreference)
+        if ($WhatIfPreference)
         {
             $InvokeCimMethod.Add("WhatIf",$true)
         }
@@ -205,14 +205,14 @@ Param(
         Write-Verbose -Message "$f -  ElementName=$PlanName"
         $CimObjectPowerPlan = Get-CimInstance @GetCimInstance | Where-Object ElementName -like "$PlanName"
               
-        foreach($Instance in $CimObjectPowerPlan)
+        foreach ($Instance in $CimObjectPowerPlan)
         {
             if ($pscmdlet.ShouldProcess($Instance))
             {   
                 $null = Invoke-CimMethod -InputObject $Instance @InvokeCimMethod
             }
         }
-        if(-not $CimObjectPowerPlan)
+        if (-not $CimObjectPowerPlan)
         {
             Write-Warning -Message "Unable to find powerplan $PlanName"
         }
